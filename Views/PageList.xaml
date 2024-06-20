@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PM2E12272.Views.PageList"
+             Background="White">
+     
+    <ScrollView>
+        
+
+        <StackLayout>
+            <Button
+             x:Name="btnRegresar"
+             Margin="0,30,0,20"
+             Background="#00532c"
+             TextColor="White"
+             FontAttributes="Bold"
+             WidthRequest="200"
+             HeightRequest="50"
+             Clicked="btnRegresar_Clicked"
+             HorizontalOptions="Center"
+             SemanticProperties.Hint="Regresar a Menu Principal"
+             Text="Atras" />
+
+            <CollectionView
+            x:Name="collectionView"
+            HorizontalOptions="Center"
+            SelectionMode="Single"
+            VerticalOptions="Center"
+            SelectionChanged="collectionView_SelectionChanged">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                         Grid.Column="1"
+                         Margin="20,20,20,0"
+                         BorderColor="Black"
+                         BackgroundColor="#857DB1"
+                         CornerRadius="25"
+                         Padding="0">
+
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                        Text="Eliminar"
+                                        BackgroundColor="#E3C9DF"
+                                        Command="{Binding BindingContext.DeleteCommand, Source={x:Reference collectionView}}"
+                                        CommandParameter="{Binding .}" 
+                                        Clicked="EliminarAutor_Clicked"/>
+                                        <SwipeItem
+                                        Text="Actualizar" 
+                                        BackgroundColor="#E6E1EF"
+                                        Command="{Binding BindingContext.UpdateCommand, Source={x:Reference collectionView}}"
+                                        CommandParameter="{Binding .}" 
+                                        Clicked="ActualizarAutor_Clicked"/>
+                                        <SwipeItem
+                                        Text="Ver mapa" 
+                                        BackgroundColor="#C9B5D4"
+                                        Command="{Binding BindingContext.SeeCommand, Source={x:Reference collectionView}}"
+                                        CommandParameter="{Binding .}" 
+                                        Clicked="ActualizarAutor_Clicked"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Frame
+                                Grid.Column="1"
+                                Margin="0,0,0,0"
+                                BorderColor="Black"
+                                BackgroundColor="#857DB1"
+                                CornerRadius="25"
+                                Padding="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                        Grid.Column="0"
+                                        Margin="20,0,20,10"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Id}"
+                                        VerticalOptions="CenterAndExpand" />
+
+                                        <Label
+                                        Grid.Column="2"
+                                        Margin="10,0,10,10"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Descripcion}"
+                                        VerticalOptions="CenterAndExpand" />
+                                    </Grid>
+                                </Frame>
+                            </SwipeView>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
