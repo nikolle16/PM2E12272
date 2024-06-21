@@ -1,67 +1,38 @@
 using System.Collections.ObjectModel;
-using 
+using PM2E12272.Models;
+using PM2E12272.Controllers;
+using Microsoft.Extensions.Primitives;
+using System.Runtime.InteropServices;
 
 namespace PM2E12272.Views;
 
 public partial class PageList : ContentPage
 {
-    private Controllers.AutorController AutorController;
-    private List<Models.Autor> autores;
-    Models.Autor selectedAuthor;
-    private AutorController controller;
-    public ObservableCollection<Autor> Autores { get; set; }
-    public Command<Autor> UpdateCommand { get; }
-    public Command<Autor> DeleteCommand { get; }
+    private Controllers.UbicacionControllers UbicacionControllers;
+    private List<Models.Ubicacion> autores;
+    Models.Ubicacion selectedUbicacion;
+    private UbicacionControllers controller;
+    public ObservableCollection<Ubicacion> Ubicacion { get; set; }
+    public Command<Ubicacion> UpdateCommand { get; }
+    public Command<Ubicacion> DeleteCommand { get; }
 
-    public verAutores()
+    public PageList()
     {
         InitializeComponent();
-        AutorController = new Controllers.AutorController();
-        controller = new AutorController();
-        Autores = new ObservableCollection<Autor>();
+
+        UbicacionControllers = new Controllers.UbicacionControllers();
+        controller = new UbicacionControllers();
+        Ubicacion = new ObservableCollection<Ubicacion>();
         BindingContext = this;
     }
 
-    //Metodo que permite mostrar la lista mientras la pagina se esta mostrando o cargando
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        // Obtiene la lista de personas de la base de datos
-        autores = await AutorController.getListAutor();
+        autores = await UbicacionControllers.getListUbicacion();
 
-        // Coloca la lista en el collection view
         collectionView.ItemsSource = autores;
-    }
-
-    private void searchBar_SearchButtonPressed(object sender, EventArgs e)
-    {
-        BuscarAutores(searchBar.Text);
-    }
-
-    //Funcion para realizar una busqueda en la lista o base de datos
-    private void BuscarAutores(string query)
-    {
-
-        //Usa LINQ (Language-Integrated Query) (es una característica en el framework .NET que proporciona una sintaxis estandarizada
-        //y declarativa para consultar y manipular datos de diferentes tipos de fuentes, como colecciones,
-        //bases de datos, XML, entre otros.) en una expresion tipo lambda para filtrar la informacion de la base 
-        //de datos y mostrar los resultados basados en la busqueda.
-
-        var results = autores
-            .Where(author => author.Nombres?.ToLowerInvariant().Contains(query.ToLowerInvariant()) == true ||
-                             author.Nacionalidad?.ToLowerInvariant().Contains(query.ToLowerInvariant()) == true)
-            .ToList();
-
-        collectionView.ItemsSource = new List<Models.Autor>(results);
-    }
-
-    private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        {
-            collectionView.ItemsSource = autores;
-        }
     }
 
     private void btnRegresar_Clicked(object sender, EventArgs e)
@@ -71,33 +42,35 @@ public partial class PageList : ContentPage
 
     private void collectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        selectedAuthor = e.CurrentSelection.FirstOrDefault() as Models.Autor;
+        selectedUbicacion = e.CurrentSelection.FirstOrDefault() as Models.Ubicacion;
     }
 
-    private async void ActualizarAutor_Clicked(object sender, EventArgs e)
+    private async void ActualizarUbicacion_Clicked(object sender, EventArgs e)
     {
-        if (selectedAuthor != null)
+        if (selectedUbicacion != null)
         {
-            await Navigation.PushAsync(new actuAutor(selectedAuthor.Id));
+            await Navigation.PushAsync(new actuUbicacion(selectedUbicacion.Id));
         }
         else
         {
-            await DisplayAlert("Error", "Seleccione un autor primero", "OK");
+            await DisplayAlert("Error", "Seleccione una ubicacion primero", "OK");
         }
     }
 
-    private async void EliminarAutor_Clicked(object sender, EventArgs e)
+    private async void EliminarUbicacion_Clicked(object sender, EventArgs e)
     {
-        var result = await DisplayAlert("Confirmar", "¿Está seguro que desea eliminar este autor?", "Sí", "No");
+        var result = await DisplayAlert("Confirmar", "¿Está seguro que desea eliminar esta ubicacion?", "Sí", "No");
 
-        if (selectedAuthor != null)
+        if (selectedUbicacion != null)
         {
             if (result)
             {
-                await controller.deleteAutor(selectedAuthor.Id);
-                Autores.Remove(selectedAuthor);
+                await controller.deleteUbicacion(selectedUbicacion.Id);
+                Ubicacion.Remove(selectedUbicacion);
 
-                Navigation.PopAsync();
+                var currentPage = this;
+                await Navigation.PushAsync(new PageList());
+                Navigation.RemovePage(currentPage);
             }
             else
             {
@@ -106,7 +79,20 @@ public partial class PageList : ContentPage
         }
         else
         {
-            await DisplayAlert("Error", "Seleccione un autor primero", "OK");
+            await DisplayAlert("Error", "Seleccione una ubicacion primero", "OK");
+        }
+    }
+
+    private async void VerMapa_Clicked(object sender, EventArgs e)
+    {
+        if (selectedUbicacion != null)
+        {
+
+            await Navigation.PushAsync(new PageMapa(selectedUbicacion));
+        }
+        else
+        {
+            await DisplayAlert("Error", "Seleccione una ubicacion primero", "OK");
         }
     }
 }

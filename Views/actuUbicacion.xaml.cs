@@ -1,25 +1,34 @@
 using Newtonsoft.Json.Linq;
-using System.Net.Http;
 
 namespace PM2E12272.Views;
 
-public partial class MainPage : ContentPage
+public partial class actuUbicacion : ContentPage
 {
     private const string GoogleMapsApiKey = "AIzaSyARoSxWhYLNwTLRy1RuWBZAc8fscCjwGes";
+    private int ubiId;
     Controllers.UbicacionControllers controller;
+    List<Models.Ubicacion> ubicacion;
     FileResult photo;
 
-    public MainPage()
+    public actuUbicacion(int ubicId)
     {
         InitializeComponent();
-        CheckGpsStatusAsync();
+        this.ubiId = ubicId;
         controller = new Controllers.UbicacionControllers();
+        BuscarUbi(ubicId);
     }
-
-    public MainPage(Controllers.UbicacionControllers dbPath)
+    public actuUbicacion(Controllers.UbicacionControllers dbPath)
     {
         InitializeComponent();
         controller = dbPath;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        ubicacion = await controller.getListUbicacion();
+
     }
 
     public string? GetImg64()
@@ -40,35 +49,26 @@ public partial class MainPage : ContentPage
         return null;
     }
 
-    private async Task CheckGpsStatusAsync()
+    private async void BuscarUbi(int ubicId)
     {
-        var locationStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+        ubicacion = await controller.getListUbicacion();
 
-        if (locationStatus != PermissionStatus.Granted)
+        var results = ubicacion
+            .Where(ubi => ubi.Id == ubicId)
+            .ToList();
+
+        if (results.Any())
         {
-            locationStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            var ubi = results.First();
+
+            imgFoto.Source = ubi.Foto;
+            txtLatitud.Text = ubi.Latitud;
+            txtLongitud.Text = ubi.Longitud;
+            txtDescripcion.Text = ubi.Descripcion;
         }
-
-        if (locationStatus != PermissionStatus.Granted)
+        else
         {
-            await DisplayAlert("Alerta", "La aplicación necesita permisos de ubicación para funcionar.", "OK");
-            return;
-        }
-
-        var location = await Geolocation.GetLastKnownLocationAsync();
-
-        if (location == null)
-        {
-            location = await Geolocation.GetLocationAsync(new GeolocationRequest
-            {
-                DesiredAccuracy = GeolocationAccuracy.Medium,
-                Timeout = TimeSpan.FromSeconds(30)
-            });
-        }
-
-        if (location == null)
-        {
-            await DisplayAlert("GPS no activado", "El GPS no está activado. Por favor, habilítelo en la configuración.", "OK");
+            await DisplayAlert("Error", "Id no encontrado", "OK");
         }
     }
 
@@ -102,11 +102,13 @@ public partial class MainPage : ContentPage
 
         var ubi = new Models.Ubicacion
         {
+            Id = ubiId,
             Latitud = txtLatitud.Text,
             Longitud = txtLongitud.Text,
             Descripcion = txtDescripcion.Text,
             Foto = GetImg64()
         };
+
 
         try
         {
@@ -114,7 +116,7 @@ public partial class MainPage : ContentPage
             {
                 if (await controller.storeUbicacion(ubi) > 0)
                 {
-                    await DisplayAlert("Aviso", "Registro Ingresado con Exito!", "OK");
+                    await DisplayAlert("Aviso", "Registro Actualizado con Exito!", "OK");
                     await Navigation.PopAsync();
                 }
                 else
@@ -127,11 +129,6 @@ public partial class MainPage : ContentPage
         {
             await DisplayAlert("Error", $"Ocurrio un Error: {ex.Message}", "OK");
         }
-
-        imgFoto.Source = "logoubi.png";
-        txtLatitud.Text = string.Empty;
-        txtLongitud.Text = string.Empty;
-        txtDescripcion.Text = string.Empty;
     }
 
     private async void btnfoto_Clicked(object sender, EventArgs e)
@@ -144,20 +141,15 @@ public partial class MainPage : ContentPage
             using Stream sourcephoto = await photo.OpenReadAsync();
             using FileStream streamlocal = File.OpenWrite(photoPath);
 
-            imgFoto.Source = ImageSource.FromStream(() => photo.OpenReadAsync().Result); 
+            imgFoto.Source = ImageSource.FromStream(() => photo.OpenReadAsync().Result);
 
-            await sourcephoto.CopyToAsync(streamlocal); 
+            await sourcephoto.CopyToAsync(streamlocal);
         }
     }
 
     private void btnRegresar_Clicked(object sender, EventArgs e)
     {
         Navigation.PopAsync();
-    }
-
-    private void ToolbarItem_Clicked(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new PageList());
     }
 
     private async void btnBuscar_Clicked(object sender, EventArgs e)

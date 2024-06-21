@@ -13,13 +13,13 @@ namespace PM2E12272.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(250), NotNull]
         public string Latitud { get; set; } = string.Empty;
 
-        [MaxLength(100)]
+        [MaxLength(250), NotNull]
         public string Longitud { get; set; } = string.Empty;
 
-        [MaxLength(250)]
+        [MaxLength(250), NotNull]
         public string Descripcion { get; set; } = string.Empty;
         public string Foto { get; set; } = string.Empty;
     }

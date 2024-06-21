@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PM2E12272.Views.MainPage"
+             x:Class="PM2E12272.Views.actuUbicacion"
              BackgroundColor="white"
-             Title="Inicio">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Lista" Clicked="ToolbarItem_Clicked"/>
-    </ContentPage.ToolbarItems>
-
+             Title="Actualizar">
     <ScrollView>
 
         <VerticalStackLayout Padding="30,0" Spacing="20">
-            <Image
-            Margin="35,-20,0,0"
-            Aspect="AspectFit"
-            HeightRequest="150"
+            <Button
+            x:Name="btnRegresar"
+            Margin="10,10,0,0"
+            Background="#67127C" TextColor="White" FontAttributes="Bold"
+            WidthRequest="100"
+            HeightRequest="50"
+            Clicked="btnRegresar_Clicked"
             HorizontalOptions="Start"
-            Source="logouth.png"
-            VerticalOptions="Start"
-            SemanticProperties.HeadingLevel="Level1"
-            WidthRequest="120" />
-
-            <Label
-            Margin="0,-115,35,0"
-            TextColor="Black"
-            FontAttributes="Bold"
-            FontSize="Title"
-            HorizontalOptions="End"
-            VerticalOptions="Start"
-            SemanticProperties.HeadingLevel="Level1"
-            Style="{StaticResource Headline}"
-            Text="Site Visitor App" />
-
+            SemanticProperties.Hint="Regresar"
+            Text="Atras" />
+            
             <Image
             x:Name="imgFoto"
             Margin="0,40,0,0"
@@ -57,46 +42,48 @@
             <HorizontalStackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
 
                 <Label
-                Margin="0,0,0,10"
-                TextColor="Black"
-                FontAttributes="Bold"
-                FontSize="Body"
-                HorizontalOptions="Start"
-                Text="Latitud:"
-                VerticalOptions="Center" />
+                 Margin="0,0,0,10"
+                 TextColor="Black"
+                 FontAttributes="Bold"
+                 FontSize="Body"
+                 HorizontalOptions="Start"
+                 Text="Latitud:"
+                 VerticalOptions="Center" />
 
                 <Entry
-                x:Name="txtLatitud"
-                Margin="15,0,0,10"
-                TextColor="Black"
-                FontAttributes="Bold"
-                FontSize="Body"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" 
-                IsEnabled="False"/>
+                 x:Name="txtLatitud"
+                 Margin="15,0,0,10"
+                 TextColor="Black"
+                 FontAttributes="Bold"
+                 FontSize="Body"
+                 HorizontalOptions="Center"
+                 Keyboard="Text"
+                 VerticalOptions="Center" 
+                 IsEnabled="False"/>
 
             </HorizontalStackLayout>
 
             <HorizontalStackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
 
                 <Label
-                Margin="0,0,0,10"
-                TextColor="Black"
-                FontAttributes="Bold"
-                FontSize="Body"
-                HorizontalOptions="Start"
-                Text="Longitud:"
-                VerticalOptions="Center" />
+                 Margin="0,0,0,10"
+                 TextColor="Black"
+                 FontAttributes="Bold"
+                 FontSize="Body"
+                 HorizontalOptions="Start"
+                 Text="Longitud:"
+                 VerticalOptions="Center" />
 
                 <Entry
-                x:Name="txtLongitud"
-                Margin="15,0,0,10"
-                TextColor="Black"
-                FontAttributes="Bold"
-                FontSize="Body"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" 
-                IsEnabled="False"/>
+                 x:Name="txtLongitud"
+                 Margin="15,0,0,10"
+                 TextColor="Black"
+                 FontAttributes="Bold"
+                 FontSize="Body"
+                 HorizontalOptions="Center"
+                 Keyboard="Text"
+                 VerticalOptions="Center" 
+                 IsEnabled="False"/>
 
             </HorizontalStackLayout>
 
@@ -115,7 +102,7 @@
             TextColor="Black"
             FontAttributes="Bold"
             FontSize="Body"
-            HorizontalOptions="StartAndExpand"
+            HorizontalOptions="Start"
             Keyboard="Text"
             Placeholder="Ingrese la ubicacion"
             VerticalOptions="Center"/>
@@ -130,18 +117,18 @@
             HorizontalOptions="Start"
             SemanticProperties.Hint="Buscar"
             Text="Buscar Ubicacion" />
-
-            <Button
-            x:Name="btnAgregar"
-            Margin="0,-70,0,0"
-            Background="#67127C" TextColor="White" FontAttributes="Bold"
-            WidthRequest="125"
-            HeightRequest="50"
-            Clicked="btnAgregar_Clicked"
-            HorizontalOptions="End"
-            SemanticProperties.Hint="Agregar"
-            Text="Agregar" />
             
+            <Button
+             x:Name="btnAgregar"
+             Margin="0,-70,0,0"
+             Background="#67127C" TextColor="White" FontAttributes="Bold"
+             WidthRequest="150"
+             HeightRequest="50"
+             Clicked="btnAgregar_Clicked"
+             HorizontalOptions="End"
+             SemanticProperties.Hint="Agregar"
+             Text="Actualizar"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

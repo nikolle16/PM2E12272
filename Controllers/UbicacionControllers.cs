@@ -8,7 +8,7 @@ using PM2E12272.Models;
 
 namespace PM2E12272.Controllers
 {
-    internal class UbicacionControllers
+    public class UbicacionControllers
     {
         SQLiteAsyncConnection _connection;
 
@@ -42,7 +42,7 @@ namespace PM2E12272.Controllers
 
         //Crear metodos crud para la clase personas
         //Create
-        public async Task<int> storeAutor(Ubicacion ubicacion)
+        public async Task<int> storeUbicacion(Ubicacion ubicacion)
         {
             await Init();
             if (ubicacion.Id == 0)
@@ -56,14 +56,14 @@ namespace PM2E12272.Controllers
         }
 
         //Update
-        public async Task<int> updateAutor(Ubicacion ubicacion)
+        public async Task<int> updateUbicacion(Ubicacion ubicacion)
         {
             await Init();
             return await _connection.UpdateAsync(ubicacion);
         }
 
         //Read
-        public async Task<List<Models.Ubicacion>> getListAutor()
+        public async Task<List<Models.Ubicacion>> getListUbicacion()
         {
             await Init();
             return await _connection.Table<Ubicacion>().ToListAsync();
@@ -77,7 +77,7 @@ namespace PM2E12272.Controllers
         }
 
         //Delete
-        public async Task<int> deleteAutor(int ubicacionID)
+        public async Task<int> deleteUbicacion(int ubicacionID)
         {
             await Init();
             var ubicacionToDelete = await getAutors(ubicacionID);

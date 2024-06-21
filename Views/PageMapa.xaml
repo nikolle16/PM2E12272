@@ -2,11 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PM2E12272.Views.PageMapa"
-             Title="PageMapa">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="White"
+             Title="Mapa">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Button
+            x:Name="btnRegresar"
+            Margin="10,10,0,0"
+            Background="#67127C" TextColor="White" FontAttributes="Bold"
+            WidthRequest="100"
+            HeightRequest="50"
+            Clicked="btnRegresar_Clicked"
+            HorizontalOptions="Start"
+            SemanticProperties.Hint="Regresar"
+            Text="Atras" />
+
+            <WebView 
+            x:Name="webView"
+            Margin="0,0,0,0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="370"
+            HeightRequest="500"/>
+
+            <Button
+            x:Name="btnCompartir"
+            Margin="0,30,0,0"
+            Background="#67127C" TextColor="White" FontAttributes="Bold"
+            WidthRequest="200"
+            HeightRequest="50"
+            Clicked="btnCompartir_Clicked"
+            HorizontalOptions="Center"
+            SemanticProperties.Hint="Compartir"
+            Text="Compartir Imagen" />      
+        </StackLayout>
+    </ContentPage.Content>
+
+    
 </ContentPage>
