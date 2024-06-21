@@ -40,35 +40,13 @@ public partial class MainPage : ContentPage
         return null;
     }
 
-    private async Task CheckGpsStatusAsync()
+    private async System.Threading.Tasks.Task CheckGpsStatusAsync()
     {
-        var locationStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+        var locationStatus = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10)));
 
-        if (locationStatus != PermissionStatus.Granted)
+        if (locationStatus == null)
         {
-            locationStatus = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        }
-
-        if (locationStatus != PermissionStatus.Granted)
-        {
-            await DisplayAlert("Alerta", "La aplicación necesita permisos de ubicación para funcionar.", "OK");
-            return;
-        }
-
-        var location = await Geolocation.GetLastKnownLocationAsync();
-
-        if (location == null)
-        {
-            location = await Geolocation.GetLocationAsync(new GeolocationRequest
-            {
-                DesiredAccuracy = GeolocationAccuracy.Medium,
-                Timeout = TimeSpan.FromSeconds(30)
-            });
-        }
-
-        if (location == null)
-        {
-            await DisplayAlert("GPS no activado", "El GPS no está activado. Por favor, habilítelo en la configuración.", "OK");
+            await DisplayAlert("El GPS no esta habilitado", "Por favor habilita el GPS", "OK");
         }
     }
 
