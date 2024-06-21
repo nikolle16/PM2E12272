@@ -13,7 +13,7 @@
 
         <VerticalStackLayout Padding="30,0" Spacing="20">
             <Image
-            Margin="35,-20,0,0"
+            Margin="20,-20,0,0"
             Aspect="AspectFit"
             HeightRequest="150"
             HorizontalOptions="Start"
@@ -23,7 +23,7 @@
             WidthRequest="120" />
 
             <Label
-            Margin="0,-115,35,0"
+            Margin="0,-115,20,0"
             TextColor="Black"
             FontAttributes="Bold"
             FontSize="Title"

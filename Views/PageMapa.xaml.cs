@@ -5,9 +5,6 @@ namespace PM2E12272.Views;
 public partial class PageMapa : ContentPage
 {
     string photo;
-    
-    Controllers.UbicacionControllers controller;
-    List<Models.Ubicacion> ubicacion;
 
     public PageMapa(Ubicacion tabla)
 	{

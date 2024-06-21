@@ -102,7 +102,7 @@
             TextColor="Black"
             FontAttributes="Bold"
             FontSize="Body"
-            HorizontalOptions="Start"
+            HorizontalOptions="StartAndExpand"
             Keyboard="Text"
             Placeholder="Ingrese la ubicacion"
             VerticalOptions="Center"/>
